@@ -5,11 +5,10 @@ import com.agendamentos.agendamentos.domain.model.BarberModel;
 
 import java.util.List;
 
-public interface BarberRepositoryImplPort {
+public interface BarberServicePort {
+    BarberModel createdBarber(BarberEntity barberEntity);
 
     List<BarberModel> findAllBarbers();
-
-    BarberModel createdBarber(BarberEntity barberEntity);
 
     BarberModel findByDocument(String documentBarber);
 }

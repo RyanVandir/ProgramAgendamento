@@ -16,5 +16,5 @@ public class BarberEntity {
     String name;
     String email;
     String phone;
-    String passWord;
+    String password;
 }

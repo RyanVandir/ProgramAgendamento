@@ -12,5 +12,5 @@ public class BarberModel {
     String name;
     String email;
     String phone;
-    String passWord;
+    String password;
 }
