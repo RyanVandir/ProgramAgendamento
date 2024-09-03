@@ -11,9 +11,9 @@ import lombok.*;
 @ToString
 @Entity
 public class ClientEntity {
-    String name;
     @Id
     String email;
+    String name;
     String password;
     String phone;
 }

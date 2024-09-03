@@ -1,6 +1,7 @@
 package com.agendamentos.agendamentos.adapter.in.controller;
 
 import com.agendamentos.agendamentos.adapter.in.request.BarberRequest;
+import com.agendamentos.agendamentos.adapter.out.entity.BarberEntity;
 import com.agendamentos.agendamentos.domain.mapper.BarberMapper;
 import com.agendamentos.agendamentos.domain.port.in.BarberCorePort;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,10 @@ public class BarberController {
     @GetMapping("/{documentBarber}")
     public ResponseEntity<BarberRequest> findByBarber(@PathVariable String documentBarber) {
         log.info("Buscando barbeiro {}", documentBarber);
-        try{
+        try {
             BarberRequest response = barberCorePort.findByDocument(documentBarber);
             log.info("Barbeiro {}, encontrado!", response.getName());
-            return ResponseEntity.status(HttpStatus.OK) .body(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (RuntimeException ex) {
             log.warn(ex.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -39,10 +40,15 @@ public class BarberController {
     }
 
     @PostMapping
-    public BarberRequest createdBarber(@RequestBody BarberRequest barberRequest) {
+    public ResponseEntity createdBarber(@RequestBody BarberRequest barberRequest) {
         log.info("Barbeiro {}, cpf {}. Solicitou uma criação.", barberRequest.getName(), barberRequest.getDocument());
-        BarberRequest response =  barberCorePort.createdBarber(barberMapper.toModel(barberRequest));
-        log.info("Barbeiro {}, cpf {}. Criado com sucesso!", barberRequest.getName(), barberRequest.getDocument());
-        return response;
+        try {
+            BarberRequest response = barberCorePort.createdBarber(barberMapper.toModel(barberRequest));
+            log.info("Barbeiro {}, cpf {}. Criado com sucesso!", barberRequest.getName(), barberRequest.getDocument());
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (RuntimeException ex) {
+            log.warn(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }

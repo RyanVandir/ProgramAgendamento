@@ -23,6 +23,7 @@ public class BarberService implements BarberServicePort {
     public List<BarberModel> findAllBarbers() {
         try {
             List<BarberEntity> barbers = barberRepository.findAll();
+            log.info("Babeiros encontrados: {}", barbers);
             return barberMapper.toModel(barbers);
         } catch (RuntimeException ex) {
             log.error("Banco de dados indisponivel: {}", ex.getMessage());
@@ -33,14 +34,26 @@ public class BarberService implements BarberServicePort {
 
     @Override
     public BarberModel createdBarber(BarberEntity barberEntity) {
-        return barberMapper.toModel(this.barberRepository.save(barberEntity));
+        try {
+            BarberModel save = barberMapper.toModel(barberRepository.save(barberEntity));
+            log.info("Novo barbeiro: {}", save.getName());
+            return save;
+        } catch (RuntimeException ex) {
+            log.error("Falha criação de dados: {}", ex.getMessage());
+            throw new RuntimeException("Falha ao criar seu cadastro");
+        }
     }
 
     @Override
     public BarberModel findByDocument(String documentBarber) {
-        Optional<BarberEntity> barberEntity = barberRepository.findById(documentBarber);
-        if (barberEntity.isEmpty())
-            throw new RuntimeException("Barbeiro não existente");
-        return barberMapper.toModel(barberEntity.get());
+        log.info("Buscando barbeiro, {}", documentBarber);
+       try {
+           Optional<BarberEntity> barberEntity = barberRepository.findById(documentBarber);
+           BarberModel response = barberMapper.toModel(barberEntity.get());
+           log.info("Barbeiro encontrado: {}", response.getName());
+           return response;
+       } catch (RuntimeException ex) {
+           throw new RuntimeException("Barbeiro não existente");
+       }
     }
 }

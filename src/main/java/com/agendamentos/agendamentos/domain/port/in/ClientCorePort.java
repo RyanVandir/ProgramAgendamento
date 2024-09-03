@@ -11,6 +11,6 @@ public interface ClientCorePort {
 
     ClientRequest createdClient(ClientModel clientModel);
 
-    ClientRequest findByEmail(String Email);
+    ClientRequest findByEmail(String email);
 
 }

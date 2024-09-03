@@ -29,8 +29,8 @@ public class ClientCore implements ClientCorePort {
     }
 
     @Override
-    public ClientRequest findByEmail(String Email) {
-        ClientModel clientModel = clientServicePort.findByEmail(Email);
+    public ClientRequest findByEmail(String email) {
+        ClientModel clientModel = clientServicePort.findByEmail(email);
         return clientMapper.toRequest(clientModel);
     }
 }

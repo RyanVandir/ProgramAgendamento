@@ -12,5 +12,5 @@ public interface ClientServicePort {
 
     ClientModel createdClient(ClientEntity clientEntity);
 
-    ClientModel findByEmail(String Email);
+    ClientModel findByEmail(String email);
 }
